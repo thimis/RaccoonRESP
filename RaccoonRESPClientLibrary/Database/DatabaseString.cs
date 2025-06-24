@@ -11,7 +11,7 @@ namespace RaccoonRESPClientLibrary.Database
         }
         public async Task<bool> Exist(string key)
         {
-            var existsResponse = await _client.SendCommandAsync($"EXISTS {key}");
+            var existsResponse = await _client.SendCommandAsync("EXISTS", key);
             return existsResponse is long existsLong && existsLong > 0;
         }
         public async void Set(string key, string value)
@@ -24,10 +24,10 @@ namespace RaccoonRESPClientLibrary.Database
             var getResponse = _client.SendCommandAsync($"GET {key}").Result;
             return getResponse?.ToString() ?? string.Empty;
         }
-        public void Append(string key, string value)
+        public async void Append(string key, string value)
         {
             // Implementation for appending a string in the database
-            var appendResponse = _client.SendCommandAsync($"APPEND {key} {value}").Result;
+            var appendResponse = await _client.SendCommandAsync("APPEND", key, value);
         }
         public void Decrement(string key)
         {
@@ -111,7 +111,7 @@ namespace RaccoonRESPClientLibrary.Database
             // Implementation for setting a substring of a string value in the database
             var setRangeResponse = _client.SendCommandAsync($"SETRANGE {key} {offset} {value}").Result;
         }
-        public long StrLen(string key)
+        public long StringLength(string key)
         {
             // Implementation for getting the length of a string value in the database
             var strLenResponse = _client.SendCommandAsync($"STRLEN {key}").Result;

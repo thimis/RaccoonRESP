@@ -16,15 +16,18 @@ namespace RaccoonRESPClientConsole
 
             var db = client.GetDatabase();
 
+            //Send Hello Command
+            var helloResponse = client.SendCommandAsync($"HELLO 3 SETNAME RaccoonClient1").Result;
+            //var helloResponse = client.SendCommandAsync($"HELLO 3 AUTH default mypassword").Result;
+
             db.String.Set("TimeKey3", "somevalue");
 
             var value = db.String.Get("TimeKey3");
 
-            db.String.Append("TimeKey3", "value");
+            db.String.Append("TimeKey3", " appended value");
 
             var value1 = db.String.Get("TimeKey3");
-            //Send Hello Command
-            //var helloResponse = client.SendCommandAsync($"HELLO 3 AUTH default mypassword").Result;
+          
 
             ////Start Transaction
             //var transactionResponse = await client.SendCommandAsync("MULTI");

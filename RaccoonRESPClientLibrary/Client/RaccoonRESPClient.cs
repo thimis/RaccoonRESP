@@ -36,7 +36,37 @@ namespace RaccoonRESPClientLibrary.Client
             string[] parts = command.Trim().Split(' ', StringSplitOptions.RemoveEmptyEntries);
             var sb = new StringBuilder($"*{parts.Length}\r\n");
             foreach (var p in parts)
-                sb.Append($"${Encoding.UTF8.GetByteCount(p)}\r\n{p}\r\n");
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return await ParseResp3Async();
+        }
+
+        public async Task<object> SendCommandAsync(string command, string key, string value)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            string[] parts = new[] { command, key, value };
+            var sb = new StringBuilder($"*{parts.Length}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return await ParseResp3Async();
+        }
+
+        public async Task<object> SendCommandAsync(string command, string key)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            string[] parts = new[] { command, key };
+            var sb = new StringBuilder($"*{parts.Length}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
 
             await _connection.writer.WriteAsync(sb.ToString());
             return await ParseResp3Async();
