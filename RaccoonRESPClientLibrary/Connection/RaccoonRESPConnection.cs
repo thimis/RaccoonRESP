@@ -13,6 +13,7 @@ namespace RaccoonRESPClientLibrary.Connection
         public readonly string _host;
         public readonly int _port;
         public readonly ProtocolVersion _protocol;
+        public readonly string Name;
 
         internal TcpClient client;
         internal NetworkStream stream;
@@ -20,11 +21,12 @@ namespace RaccoonRESPClientLibrary.Connection
         internal StreamReader reader;
 
 
-        public RaccoonRESPConnection(string Host = "127.0.0.1", int Port = 6379, ProtocolVersion Protocol = ProtocolVersion.RESP3)
+        public RaccoonRESPConnection(string Host = "127.0.0.1", int Port = 6379, ProtocolVersion Protocol = ProtocolVersion.RESP3, string name = "RaccoonRESPClient")
         {
             _host = Host;
             _port = Port;
             _protocol = Protocol;
+            Name = name;
         }
 
         internal async Task ConnectAsync()

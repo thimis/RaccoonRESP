@@ -16,10 +16,6 @@ namespace RaccoonRESPClientConsole
 
             var db = client.GetDatabase();
 
-            //Send Hello Command
-            var helloResponse = client.SendCommandAsync($"HELLO 3 SETNAME RaccoonClient1").Result;
-            //var helloResponse = client.SendCommandAsync($"HELLO 3 AUTH default mypassword").Result;
-
             db.String.Set("TimeKey3", "somevalue");
 
             var value = db.String.Get("TimeKey3");

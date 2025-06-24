@@ -24,6 +24,19 @@ namespace RaccoonRESPClientLibrary.Client
             if (_connection.client == null || !_connection.client.Connected)
             {
                 await _connection.ConnectAsync();
+                await HandshakeAsync();
+            }
+        }
+
+        private async Task HandshakeAsync()
+        {
+            if (_connection._protocol == Model.RESPEnums.ProtocolVersion.RESP3)
+            {
+                var helloResponse = await SendCommandAsync($"HELLO 3 SETNAME {_connection.Name}");
+            }
+            if (_connection._protocol == Model.RESPEnums.ProtocolVersion.RESP2)
+            {
+                var helloResponse = await SendCommandAsync($"HELLO 2 SETNAME {_connection.Name}");
             }
         }
 
