@@ -6,13 +6,13 @@ namespace RaccoonRESPClientConsole
 {
     internal class Program
     {
-        static async void Main(string[] args)
+        static void Main(string[] args)
         {
             var connection = new RaccoonRESPClientLibrary.Connection.RaccoonRESPConnection();
 
             var client = new RaccoonRESPClient(connection);
             //Connect to Redis Server
-            await client.ConnectAsync();
+            client.ConnectAsync().Wait();
 
             var db = client.GetDatabase();
 
@@ -20,7 +20,9 @@ namespace RaccoonRESPClientConsole
 
             var value = db.String.Get("TimeKey3");
 
+            db.String.Append("TimeKey3", "value");
 
+            var value1 = db.String.Get("TimeKey3");
             //Send Hello Command
             //var helloResponse = client.SendCommandAsync($"HELLO 3 AUTH default mypassword").Result;
 
@@ -30,12 +32,6 @@ namespace RaccoonRESPClientConsole
             //var getResponse = client.SendCommandAsync($"GET CoolTestKey").Result;
             ////End Transaction
             //var execResponse = client.SendCommandAsync("EXEC").Result;
-
-            
-
-            //var setResponse = client.SendCommandAsync($"SET TimeKey3 somevalue").Result;
-
-            //var getResponse = client.SendCommandAsync($"GET TimeKey3").Result;
 
             //var existsResponse = client.SendCommandAsync($"EXISTS TimeCrazyKey").Result;
 
