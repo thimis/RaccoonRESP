@@ -28,10 +28,10 @@ namespace RaccoonRESPClientConsole
             var value1 = db.String.Get("TimeKey3");
           
             //Start Transaction
-            db.String.StartTranscation().Wait();
+            db.StartTranscation().Wait();
             db.String.Set("CoolTest", "somecooltestvalue");
             db.String.Set("CoolTestKey5", "somecoolValue5");
-            var transRespose = db.String.ExecuteTranscation().Result;
+            var transRespose = db.ExecuteTranscation().Result;
             if (transRespose.Response.GetType() == typeof(RedisError))
             {
                 throw new Exception($"Transaction failed: {transRespose.Response}");
