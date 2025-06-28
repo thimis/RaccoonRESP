@@ -1,5 +1,6 @@
 ﻿using RaccoonRESPClientLibrary.Client;
 using RaccoonRESPClientLibrary.Model;
+using static RaccoonRESPClientLibrary.Client.RaccoonRESPClient;
 using static RaccoonRESPClientLibrary.Model.RESPEnums;
 
 namespace RaccoonRESPClientConsole
@@ -8,7 +9,8 @@ namespace RaccoonRESPClientConsole
     {
         static void Main(string[] args)
         {
-            var connection = new RaccoonRESPClientLibrary.Connection.RaccoonRESPConnection();
+            var connectionSettings = new RaccoonRESPConnectionSettings();
+            var connection = new RaccoonRESPClientLibrary.Connection.RaccoonRESPConnection(connectionSettings);
 
             var client = new RaccoonRESPClient(connection);
             //Connect to Redis Server
@@ -18,27 +20,31 @@ namespace RaccoonRESPClientConsole
 
             db.String.Set("TimeKey3", "somevalue");
 
-            var value = db.String.Get("TimeKey3");
+            var value = db.String.Get("TimeKey3").Result;
+            
 
             db.String.Append("TimeKey3", " appended value");
 
             var value1 = db.String.Get("TimeKey3");
           
+            //Start Transaction
+            db.String.StartTranscation().Wait();
+            db.String.Set("CoolTest", "somecooltestvalue");
+            db.String.Set("CoolTestKey5", "somecoolValue5");
+            var transRespose = db.String.ExecuteTranscation().Result;
+            if (transRespose.Response.GetType() == typeof(RedisError))
+            {
+                throw new Exception($"Transaction failed: {transRespose.Response}");
+            }
 
-            ////Start Transaction
-            //var transactionResponse = await client.SendCommandAsync("MULTI");
-            //var setResponse = client.SendCommandAsync($"SET CoolTestKey \"somecooltestvalue\"").Result;
-            //var getResponse = client.SendCommandAsync($"GET CoolTestKey").Result;
-            ////End Transaction
-            //var execResponse = client.SendCommandAsync("EXEC").Result;
 
-            //var existsResponse = client.SendCommandAsync($"EXISTS TimeCrazyKey").Result;
+                
 
-            //var dataTypes = CreateRESPDataTypes();
+                //var dataTypes = CreateRESPDataTypes();
 
-            //var resoonseLetters = getResponse.ToCharArray().ToList();
+                //var resoonseLetters = getResponse.ToCharArray().ToList();
 
-            //var dataType = dataTypes.FirstOrDefault(dt => dt.FirstByte == resoonseLetters[0].ToString());
+                //var dataType = dataTypes.FirstOrDefault(dt => dt.FirstByte == resoonseLetters[0].ToString());
         }
 
         private static List<RESPDataType> CreateRESPDataTypes()

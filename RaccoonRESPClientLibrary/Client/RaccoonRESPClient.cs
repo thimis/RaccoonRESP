@@ -1,5 +1,6 @@
 ﻿using RaccoonRESPClientLibrary.Connection;
 using RaccoonRESPClientLibrary.Database;
+using RaccoonRESPClientLibrary.Model;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -40,7 +41,7 @@ namespace RaccoonRESPClientLibrary.Client
             }
         }
 
-        public async Task<object> SendCommandAsync(string command)
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command)
         {
             if (_connection.client == null || !_connection.client.Connected)
                 throw new InvalidOperationException("Redis client is not connected.");
@@ -52,10 +53,10 @@ namespace RaccoonRESPClientLibrary.Client
                 sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
 
             await _connection.writer.WriteAsync(sb.ToString());
-            return await ParseResp3Async();
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
         }
 
-        public async Task<object> SendCommandAsync(string command, string key, string value)
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key, string value)
         {
             if (_connection.client == null || !_connection.client.Connected)
                 throw new InvalidOperationException("Redis client is not connected.");
@@ -67,10 +68,10 @@ namespace RaccoonRESPClientLibrary.Client
                 sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
 
             await _connection.writer.WriteAsync(sb.ToString());
-            return await ParseResp3Async();
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
         }
 
-        public async Task<object> SendCommandAsync(string command, string key)
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key)
         {
             if (_connection.client == null || !_connection.client.Connected)
                 throw new InvalidOperationException("Redis client is not connected.");
@@ -82,7 +83,7 @@ namespace RaccoonRESPClientLibrary.Client
                 sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
 
             await _connection.writer.WriteAsync(sb.ToString());
-            return await ParseResp3Async();
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
         }
 
         private async Task<object> ParseResp3Async()

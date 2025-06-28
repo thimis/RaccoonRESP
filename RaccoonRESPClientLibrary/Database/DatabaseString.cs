@@ -1,4 +1,5 @@
 ﻿using RaccoonRESPClientLibrary.Client;
+using RaccoonRESPClientLibrary.Model;
 
 namespace RaccoonRESPClientLibrary.Database
 {
@@ -9,20 +10,52 @@ namespace RaccoonRESPClientLibrary.Database
         {
             _client = client ?? throw new ArgumentNullException(nameof(client), "Client cannot be null.");
         }
-        public async Task<bool> Exist(string key)
+        public async Task<RaccoonRESPResponse> StartTranscation()
         {
-            var existsResponse = await _client.SendCommandAsync("EXISTS", key);
-            return existsResponse is long existsLong && existsLong > 0;
+            // Implementation for starting a transaction in the database
+            var commandResponse = await _client.SendCommandAsync("MULTI");
+            return commandResponse;
         }
-        public async void Set(string key, string value)
+        public async Task<RaccoonRESPResponse> ExecuteTranscation()
         {
-            var setResponse = await _client.SendCommandAsync($"SET {key} {value}");
+            // Implementation for starting a transaction in the database
+            var commandResponse = await _client.SendCommandAsync("EXEC");
+            return commandResponse;
+        }
+        public async Task<RaccoonRESPResponse> DiscardTranscation()
+        {
+            // Implementation for discarding a transaction in the database
+            var commandResponse = await _client.SendCommandAsync("DISCARD");
+            return commandResponse;
+        }
+        public async Task<RaccoonRESPResponse> Watch(string key)
+        {
+            // Implementation for watching a key in the database
+            var commandResponse = await _client.SendCommandAsync("WATCH", key);
+            return commandResponse;
+        }
+        public async Task<RaccoonRESPResponse> Unwatch()
+        {
+            // Implementation for unwatching keys in the database
+            var commandResponse = await _client.SendCommandAsync("UNWATCH");
+            return commandResponse;
         }
 
-        public string Get(string key)
+        public async Task<RaccoonRESPResponse> Exist(string key)
         {
-            var getResponse = _client.SendCommandAsync($"GET {key}").Result;
-            return getResponse?.ToString() ?? string.Empty;
+            var existsResponse = await _client.SendCommandAsync("EXISTS", key);
+            return existsResponse;
+        }
+        public async Task<RaccoonRESPResponse> Set(string key, string value)
+        {
+            var setResponse = await _client.SendCommandAsync($"SET {key} {value}");
+            return setResponse;
+        }
+
+        public async Task<RaccoonRESPResponse> Get(string key)
+        {
+            var getResponse = await _client.SendCommandAsync($"GET {key}");
+            return getResponse;
         }
         public async void Append(string key, string value)
         {

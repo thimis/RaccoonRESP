@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RaccoonRESPClientLibrary.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -21,12 +22,12 @@ namespace RaccoonRESPClientLibrary.Connection
         internal StreamReader reader;
 
 
-        public RaccoonRESPConnection(string Host = "127.0.0.1", int Port = 6379, ProtocolVersion Protocol = ProtocolVersion.RESP3, string name = "RaccoonRESPClient")
+        public RaccoonRESPConnection(RaccoonRESPConnectionSettings connectionSettings)
         {
-            _host = Host;
-            _port = Port;
-            _protocol = Protocol;
-            Name = name;
+            _host = connectionSettings.Host;
+            _port = connectionSettings.Port;
+            _protocol = connectionSettings.Protocol;
+            Name = connectionSettings.Name;
         }
 
         internal async Task ConnectAsync()
