@@ -1,7 +1,6 @@
-﻿using RaccoonRESPClientLibrary.Client;
-using RaccoonRESPClientLibrary.Model;
-using static RaccoonRESPClientLibrary.Client.RaccoonRESPClient;
-using static RaccoonRESPClientLibrary.Model.RESPEnums;
+﻿
+
+using RaccoonRESPClient.Core;
 
 namespace RaccoonRESPClientConsole
 {
@@ -10,151 +9,156 @@ namespace RaccoonRESPClientConsole
         static void Main(string[] args)
         {
             var connectionSettings = new RaccoonRESPConnectionSettings();
-            var connection = new RaccoonRESPClientLibrary.Connection.RaccoonRESPConnection(connectionSettings);
+            var connection = new RaccoonRESPConnection(connectionSettings);
 
-            var client = new RaccoonRESPClient(connection);
+            var client = new RaccoonRESPClient.Core.RaccoonRESPClient(connection);
             //Connect to Redis Server
             client.ConnectAsync().Wait();
-
-            var db = client.GetDatabase();
-
-            db.String.Set("TimeKey3", "somevalue");
-
-            var value = db.String.Get("TimeKey3").Result;
             
+            var commands = client.GetCommandUtility();
 
-            db.String.Append("TimeKey3", " appended value");
+            commands.String.Set("TimeKey", "somevalue").Wait();
 
-            var value1 = db.String.Get("TimeKey3");
-          
-            //Start Transaction
-            db.StartTranscation().Wait();
-            db.String.Set("CoolTest", "somecooltestvalue");
-            db.String.Set("CoolTestKey5", "somecoolValue5");
-            var transRespose = db.ExecuteTranscation().Result;
-            if (transRespose.Response.GetType() == typeof(RedisError))
-            {
-                throw new Exception($"Transaction failed: {transRespose.Response}");
-            }
+            //client.UseStringModule();
+            //client.Context.String().Set("TimeKey", "somevalue").Wait();
+            //client.RegisterModules(new IRaccoonRESPModule[]{new StringCommands()});
+            //client.Context.St db.String.Set("TimeKey3", "somevalue");
+
+            //var value = db.String.Get("TimeKey3").Result;
 
 
-                
+            //db.String.Append("TimeKey3", " appended value");
 
-                //var dataTypes = CreateRESPDataTypes();
+            //var value1 = db.String.Get("TimeKey3");
 
-                //var resoonseLetters = getResponse.ToCharArray().ToList();
+            ////Start Transaction
+            //db.StartTranscation().Wait();
+            //db.String.Set("CoolTest", "somecooltestvalue");
+            //db.String.Set("CoolTestKey5", "somecoolValue5");
+            //var transRespose = db.ExecuteTranscation().Result;
+            //if (transRespose.Response.GetType() == typeof(RedisError))
+            //{
+            //    throw new Exception($"Transaction failed: {transRespose.Response}");
+            //}
 
-                //var dataType = dataTypes.FirstOrDefault(dt => dt.FirstByte == resoonseLetters[0].ToString());
+
+
+
+            //var dataTypes = CreateRESPDataTypes();
+
+            //var resoonseLetters = getResponse.ToCharArray().ToList();
+
+            //var dataType = dataTypes.FirstOrDefault(dt => dt.FirstByte == resoonseLetters[0].ToString());
         }
 
-        private static List<RESPDataType> CreateRESPDataTypes()
-        {
-            var dataTypelist = new List<RESPDataType>();
-            var dataTypeEnums = Enum.GetValues(typeof(DataTypeName)).Cast<DataTypeName>();
+        //private static List<RESPDataType> CreateRESPDataTypes()
+        //{
+        //    var dataTypelist = new List<RESPDataType>();
+        //    var dataTypeEnums = Enum.GetValues(typeof(DataTypeName)).Cast<DataTypeName>();
 
-            foreach (var dataTypeEnum in dataTypeEnums)
-            {
-                var dataType = new RESPDataType();
+        //    foreach (var dataTypeEnum in dataTypeEnums)
+        //    {
+        //        var dataType = new RESPDataType();
 
-                switch (dataTypeEnum)
-                {
-                    case DataTypeName.SimpleString:
-                        dataType.Name = DataTypeName.SimpleString;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
-                        dataType.Category = DataTypeCategory.Simple;
-                        dataType.FirstByte = "+";
-                        break;
-                    case DataTypeName.SimpleError:
-                        dataType.Name = DataTypeName.SimpleError;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
-                        dataType.Category = DataTypeCategory.Simple;
-                        dataType.FirstByte = "-";
-                        break;
-                    case DataTypeName.Integer:
-                        dataType.Name = DataTypeName.Integer;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
-                        dataType.Category = DataTypeCategory.Simple;
-                        dataType.FirstByte = ":";
-                        break;
-                    case DataTypeName.BulkString:
-                        dataType.Name = DataTypeName.BulkString;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = "$";
-                        break;
-                    case DataTypeName.Array:
-                        dataType.Name = DataTypeName.Array;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = "*";
-                        break;
-                    case DataTypeName.Null:
-                        dataType.Name = DataTypeName.Null;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Simple;
-                        dataType.FirstByte = "_";
-                        break;
-                    case DataTypeName.Boolean:
-                        dataType.Name = DataTypeName.Boolean;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Simple;
-                        dataType.FirstByte = "#";
-                        break;
-                    case DataTypeName.Double:
-                        dataType.Name = DataTypeName.Double;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Simple;
-                        dataType.FirstByte = ",";
-                        break;
-                    case DataTypeName.BigNumber:
-                        dataType.Name = DataTypeName.BigNumber;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Simple;
-                        dataType.FirstByte = "(";
-                        break;
-                    case DataTypeName.BulkError:
-                        dataType.Name = DataTypeName.BulkError;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = "!";
-                        break;
-                    case DataTypeName.VerbatimString:
-                        dataType.Name = DataTypeName.VerbatimString;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = "=";
-                        break;
-                    case DataTypeName.Map:
-                        dataType.Name = DataTypeName.Map;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = "%";
-                        break;
-                    case DataTypeName.Attribute:
-                        dataType.Name = DataTypeName.Attribute;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = "`";
-                        break;
-                    case DataTypeName.Set:
-                        dataType.Name = DataTypeName.Set;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = "~";
-                        break;
-                    case DataTypeName.Push:
-                        dataType.Name = DataTypeName.Push;
-                        dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
-                        dataType.Category = DataTypeCategory.Aggregate;
-                        dataType.FirstByte = ">";
-                        break;
-                    default:
-                        break;
-                }
-                dataTypelist.Add(dataType);
-            }
+        //        switch (dataTypeEnum)
+        //        {
+        //            case DataTypeName.SimpleString:
+        //                dataType.Name = DataTypeName.SimpleString;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
+        //                dataType.Category = DataTypeCategory.Simple;
+        //                dataType.FirstByte = "+";
+        //                break;
+        //            case DataTypeName.SimpleError:
+        //                dataType.Name = DataTypeName.SimpleError;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
+        //                dataType.Category = DataTypeCategory.Simple;
+        //                dataType.FirstByte = "-";
+        //                break;
+        //            case DataTypeName.Integer:
+        //                dataType.Name = DataTypeName.Integer;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
+        //                dataType.Category = DataTypeCategory.Simple;
+        //                dataType.FirstByte = ":";
+        //                break;
+        //            case DataTypeName.BulkString:
+        //                dataType.Name = DataTypeName.BulkString;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = "$";
+        //                break;
+        //            case DataTypeName.Array:
+        //                dataType.Name = DataTypeName.Array;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP2;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = "*";
+        //                break;
+        //            case DataTypeName.Null:
+        //                dataType.Name = DataTypeName.Null;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Simple;
+        //                dataType.FirstByte = "_";
+        //                break;
+        //            case DataTypeName.Boolean:
+        //                dataType.Name = DataTypeName.Boolean;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Simple;
+        //                dataType.FirstByte = "#";
+        //                break;
+        //            case DataTypeName.Double:
+        //                dataType.Name = DataTypeName.Double;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Simple;
+        //                dataType.FirstByte = ",";
+        //                break;
+        //            case DataTypeName.BigNumber:
+        //                dataType.Name = DataTypeName.BigNumber;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Simple;
+        //                dataType.FirstByte = "(";
+        //                break;
+        //            case DataTypeName.BulkError:
+        //                dataType.Name = DataTypeName.BulkError;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = "!";
+        //                break;
+        //            case DataTypeName.VerbatimString:
+        //                dataType.Name = DataTypeName.VerbatimString;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = "=";
+        //                break;
+        //            case DataTypeName.Map:
+        //                dataType.Name = DataTypeName.Map;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = "%";
+        //                break;
+        //            case DataTypeName.Attribute:
+        //                dataType.Name = DataTypeName.Attribute;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = "`";
+        //                break;
+        //            case DataTypeName.Set:
+        //                dataType.Name = DataTypeName.Set;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = "~";
+        //                break;
+        //            case DataTypeName.Push:
+        //                dataType.Name = DataTypeName.Push;
+        //                dataType.MinimalProtocolVersion = ProtocolVersion.RESP3;
+        //                dataType.Category = DataTypeCategory.Aggregate;
+        //                dataType.FirstByte = ">";
+        //                break;
+        //            default:
+        //                break;
+        //        }
+        //        dataTypelist.Add(dataType);
+        //    }
 
-            return dataTypelist;
-        }
+        //    return dataTypelist;
+        //}
     }
 }

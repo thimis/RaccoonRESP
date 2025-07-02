@@ -1,23 +1,30 @@
-﻿using RaccoonRESPClientLibrary.Connection;
-using RaccoonRESPClientLibrary.Database;
-using RaccoonRESPClientLibrary.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaccoonRESPClientLibrary.Client
+namespace RaccoonRESPClient.Core
 {
     public class RaccoonRESPClient : IRaccoonRESPClient
     {
-        private readonly RaccoonRESPConnection _connection;
+        private readonly RaccoonRESPConnection _connection;        
+
         public RaccoonRESPClient(RaccoonRESPConnection connection)
         {
             _connection = connection ?? throw new ArgumentNullException(nameof(connection), "Connection cannot be null.");
+        }
+        public RaccoonRESPCommands GetCommandUtility()
+        {
+            return new RaccoonRESPCommands
+            {
+                Client = this,
+                String = new StringCommands(this)
+            };
         }
 
         public async Task ConnectAsync()
@@ -31,11 +38,11 @@ namespace RaccoonRESPClientLibrary.Client
 
         private async Task HandshakeAsync()
         {
-            if (_connection._protocol == Model.RESPEnums.ProtocolVersion.RESP3)
+            if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP3)
             {
                 var helloResponse = await SendCommandAsync($"HELLO 3 SETNAME {_connection.Name}");
             }
-            if (_connection._protocol == Model.RESPEnums.ProtocolVersion.RESP2)
+            if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP2)
             {
                 var helloResponse = await SendCommandAsync($"HELLO 2 SETNAME {_connection.Name}");
             }
@@ -119,15 +126,6 @@ namespace RaccoonRESPClientLibrary.Client
             string? line = await _connection.reader.ReadLineAsync();
             if (line is null) throw new EndOfStreamException();
             return line;
-        }
-
-        public RaccoonRESPDatabase GetDatabase()
-        {
-            return new RaccoonRESPDatabase
-            {
-                Client = this,
-                String = new DatabaseString(this)
-            };
         }
 
         private async Task<object?> ReadBulkStringAsync()

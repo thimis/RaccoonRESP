@@ -10,4 +10,8 @@
     <Folder Include="Parser\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RaccoonRESPClient.Core\RaccoonRESP.Core.csproj" />
+  </ItemGroup>
+
 </Project>

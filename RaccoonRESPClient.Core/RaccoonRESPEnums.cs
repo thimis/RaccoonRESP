@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaccoonRESPClientLibrary.Model
+namespace RaccoonRESPClient.Core
 {
-    public static class RESPEnums
+    public static class RaccoonRESPEnums
     {
         public enum ProtocolVersion
         {

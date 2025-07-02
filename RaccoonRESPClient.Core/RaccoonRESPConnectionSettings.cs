@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static RaccoonRESPClientLibrary.Model.RESPEnums;
+using static RaccoonRESPClient.Core.RaccoonRESPEnums;
 
-namespace RaccoonRESPClientLibrary.Model
+namespace RaccoonRESPClient.Core
 {
     public class RaccoonRESPConnectionSettings
     {

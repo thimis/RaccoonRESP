@@ -1,4 +1,4 @@
-﻿namespace RaccoonRESPClientLibrary.Client
+﻿namespace RaccoonRESPClient.Core
 {
     internal interface IRaccoonRESPClient
     {

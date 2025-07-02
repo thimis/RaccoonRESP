@@ -1,13 +1,12 @@
-﻿using RaccoonRESPClientLibrary.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using static RaccoonRESPClientLibrary.Model.RESPEnums;
+using static RaccoonRESPClient.Core.RaccoonRESPEnums;
 
-namespace RaccoonRESPClientLibrary.Connection
+namespace RaccoonRESPClient.Core
 {
     public class RaccoonRESPConnection
     {
