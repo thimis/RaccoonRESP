@@ -10,7 +10,7 @@ namespace RaccoonRESPClient.Core
     public class RaccoonRESPCommands
     {
         public RaccoonRESPClient Client { get; set; }
-        public StringCommands String { get; set; }
+        public RaccoonRESPStringCommands String { get; set; }
 
         #region Transcation Commands
         public async Task<RaccoonRESPResponse> StartTranscation()
