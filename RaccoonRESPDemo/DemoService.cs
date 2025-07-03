@@ -14,9 +14,7 @@ namespace RaccoonRESPDemo
             //Connect to Redis Server
             await client.ConnectAsync();
 
-            var commands = client.GetCommandUtility();
-
-            var return0 = await client.SendCommandAsync($"AUTH passwordraccoon");
+            var commands = client.GetCommandUtility();            
 
             var return1 = await commands.String.Set("TimeKey", "somevalue");
 

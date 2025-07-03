@@ -14,6 +14,7 @@ namespace RaccoonRESPClient.Core
         public readonly int _port;
         public readonly ProtocolVersion _protocol;
         public readonly string Name;
+        public readonly string? Password;
 
         internal TcpClient client;
         internal NetworkStream stream;
@@ -27,6 +28,7 @@ namespace RaccoonRESPClient.Core
             _port = connectionSettings.Port;
             _protocol = connectionSettings.Protocol;
             Name = connectionSettings.Name;
+            Password = connectionSettings.Password;
         }
 
         internal async Task ConnectAsync()

@@ -33,20 +33,56 @@ namespace RaccoonRESPClient.Core
             if (_connection.client == null || !_connection.client.Connected)
             {
                 await _connection.ConnectAsync();
+
+                if (_connection.Password is not null)
+                {
+                    await AuthenticateAsync();
+                }
+
                 await HandshakeAsync();
             }
         }
 
-        private async Task HandshakeAsync()
+        private async Task<RaccoonRESPResponse> AuthenticateAsync()
         {
-            if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP3)
+            if (_connection.Name is null)
             {
-                var helloResponse = await SendCommandAsync($"HELLO 3 SETNAME {_connection.Name}");
+                return await SendCommandAsync($"AUTH default {_connection.Password}");
             }
-            if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP2)
+            else
             {
-                var helloResponse = await SendCommandAsync($"HELLO 2 SETNAME {_connection.Name}");
+                return await SendCommandAsync($"AUTH {_connection.Name} {_connection.Password}");
             }
+        }
+
+        private async Task<RaccoonRESPResponse> HandshakeAsync()
+        {
+            if (_connection.Name is null)
+            {
+                var guid = Guid.NewGuid();
+
+                if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP3)
+                {
+                    return await SendCommandAsync($"HELLO 3 SETNAME {guid}");
+                }
+                if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP2)
+                {
+                    return await SendCommandAsync($"HELLO 2 SETNAME {guid}");
+                }
+            }
+            else
+            {
+                if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP3)
+                {
+                    return await SendCommandAsync($"HELLO 3 SETNAME {_connection.Name}");
+                }
+                if (_connection._protocol == RaccoonRESPEnums.ProtocolVersion.RESP2)
+                {
+                    return await SendCommandAsync($"HELLO 2 SETNAME {_connection.Name}");
+                }
+            }
+
+            throw new Exception("Handshake failed");
         }
 
         public async Task<RaccoonRESPResponse> SendCommandAsync(string command)
