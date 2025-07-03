@@ -1,10 +1,7 @@
-﻿
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using RaccoonRESPClient.Core;
 
-namespace RaccoonRESPClientConsole
+namespace RaccoonRESPDemo
 {
     internal class Program
     {

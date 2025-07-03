@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Hosting;
 using RaccoonRESPClient.Core;
 
-namespace RaccoonRESPClientConsole
+namespace RaccoonRESPDemo
 {
     public class DemoService : BackgroundService
     {
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var connectionSettings = new RaccoonRESPConnectionSettings() { Port = 23456 };
+            var connectionSettings = new RaccoonRESPConnectionSettings() { Port = 23456 , Password = "passwordraccoon" };
             var connection = new RaccoonRESPConnection(connectionSettings);
 
             var client = new RaccoonRESPClient.Core.RaccoonRESPClient(connection);
