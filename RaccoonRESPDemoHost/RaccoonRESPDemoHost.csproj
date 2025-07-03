@@ -16,4 +16,8 @@
     <PackageReference Include="Aspire.Hosting.Redis" Version="9.3.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\RaccoonRESPDemo\RaccoonRESPDemo.csproj" />
+  </ItemGroup>
+
 </Project>

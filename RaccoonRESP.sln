@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36121.58
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESPDemo", "RaccoonRESPClientConsole\RaccoonRESPDemo.csproj", "{911FE411-9DE6-4AEE-B03C-361BA818FE52}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESPDemo", "RaccoonRESPDemo\RaccoonRESPDemo.csproj", "{911FE411-9DE6-4AEE-B03C-361BA818FE52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESPClientTest", "RaccoonRESPClientTest\RaccoonRESPClientTest.csproj", "{B2668031-C1DF-46EC-A932-CEE08FA2749C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESP.CoreTest", "RaccoonRESP.CoreTest\RaccoonRESP.CoreTest.csproj", "{B2668031-C1DF-46EC-A932-CEE08FA2749C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESP.Core", "RaccoonRESPClient.Core\RaccoonRESP.Core.csproj", "{66D5BB21-708D-432E-82FE-91A953C9E25B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESP.Core", "RaccoonRESP.Core\RaccoonRESP.Core.csproj", "{66D5BB21-708D-432E-82FE-91A953C9E25B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESPDemoHost", "RaccoonRESPDemoHost\RaccoonRESPDemoHost.csproj", "{008CDDAB-4821-44FA-9F17-3BC251DCD6E6}"
 EndProject

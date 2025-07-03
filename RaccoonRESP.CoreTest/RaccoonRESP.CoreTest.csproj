@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RaccoonRESPClientLibrary\RaccoonRESPClientLibrary.csproj" />
+    <ProjectReference Include="..\RaccoonRESP.Core\RaccoonRESP.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

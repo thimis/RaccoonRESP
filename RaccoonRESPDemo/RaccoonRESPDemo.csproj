@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RaccoonRESPClient.Core\RaccoonRESP.Core.csproj" />
+    <ProjectReference Include="..\RaccoonRESP.Core\RaccoonRESP.Core.csproj" />
   </ItemGroup>
 
 </Project>
