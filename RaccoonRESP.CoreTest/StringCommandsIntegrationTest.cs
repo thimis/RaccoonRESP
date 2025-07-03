@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace RaccoonRESP.CoreTest
 {
     [TestFixture]
-    public class IntegrationTest1
+    public class StringCommandsIntegrationTest
     {
         private DistributedApplication _app;
         private RaccoonRESPClient.Core.RaccoonRESPClient _client;
@@ -19,6 +19,7 @@ namespace RaccoonRESP.CoreTest
                 clientBuilder.AddStandardResilienceHandler();
             });
 
+            //Turn off random port assignment for testing purposes
             appHost.Configuration["DcpPublisher:RandomizePorts"] = "false";
 
             var app = appHost.BuildAsync().Result;
@@ -44,7 +45,34 @@ namespace RaccoonRESP.CoreTest
         }
 
         [Test]
-        public async Task FirstRaccoonRESPRedisTest()
+        public async Task Test_Command_Set_IsSuccess()
+        {
+            var key = Guid.NewGuid().ToString();
+            var value = Guid.NewGuid().ToString();
+            var commands = _client.GetCommandUtility();
+
+            var return1 = await commands.String.Set(key, value);
+
+            Assert.That(return1.Response, Is.EqualTo("OK"));
+        }
+
+        [TestCase("Key","Value")]
+        [TestCase("Key:159", "Value159")]
+        [TestCase($"kEy:AppleTango", "Value563741Gamma")]
+        [Test]
+        public async Task Test_Command_Set_Get_IsStored(string key, string value)
+        {
+            var commands = _client.GetCommandUtility();
+
+            var return1 = await commands.String.Set(key, value);
+            var return2 = await commands.String.Get(key);
+
+            Assert.That(return2.Response, Is.EqualTo(value));
+        }
+
+        [Test]
+        [Repeat(100)]
+        public async Task Test_Command_Set_Get_IsStoredWithRandomGuids()
         {
             var commands = _client.GetCommandUtility();
             var key = Guid.NewGuid().ToString();
@@ -53,8 +81,8 @@ namespace RaccoonRESP.CoreTest
             var return1 = await commands.String.Set(key, value);
             var return2 = await commands.String.Get(key);
 
-            Assert.That(return1.Response, Is.EqualTo("OK"));
             Assert.That(return2.Response, Is.EqualTo(value));
         }
+
     }
 }
