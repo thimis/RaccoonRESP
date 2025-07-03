@@ -130,6 +130,24 @@ namespace RaccoonRESPClient.Core
             return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
         }
 
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string[] keys)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            var size = 1 + keys.Length;
+            var parts = new List<string>();
+            parts.Add(command);
+            parts.AddRange(keys);
+            var sb = new StringBuilder($"*{parts.Count}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
+        }
+
         private async Task<object> ParseResp3Async()
         {
             int prefix = _connection.reader.Read();

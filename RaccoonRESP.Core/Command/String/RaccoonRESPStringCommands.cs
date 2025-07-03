@@ -21,6 +21,11 @@ namespace RaccoonRESPClient.Core
             var response = await _client.SendCommandAsync("EXISTS", key);
             return response;
         }
+        public async Task<RaccoonRESPResponse> Exist(string[] keys)
+        {
+            var response = await _client.SendCommandAsync("EXISTS", keys);
+            return response;
+        }
         public async Task<RaccoonRESPResponse> Set(string key, string value)
         {
             var response = await _client.SendCommandAsync($"SET {key} {value}");
