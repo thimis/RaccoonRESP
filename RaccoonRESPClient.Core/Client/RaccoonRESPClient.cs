@@ -23,7 +23,8 @@ namespace RaccoonRESPClient.Core
             return new RaccoonRESPCommands
             {
                 Client = this,
-                String = new RaccoonRESPStringCommands(this)
+                String = new RaccoonRESPStringCommands(this),
+                Transaction = new RaccoonRESPTransactionCommands(this)
             };
         }
 
