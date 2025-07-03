@@ -8,7 +8,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 
 var passwordResource = builder.AddParameter("cache-password", "passwordraccoon");
 
-var cache = builder.AddRedis("cache", port: 23456, password: passwordResource);
+var cache = builder.AddRedis("democache", port: 23456, password: passwordResource);
 
 
 builder.AddProject<Projects.RaccoonRESPDemo>("RaccoonRESPDemo").WithReference(cache);
