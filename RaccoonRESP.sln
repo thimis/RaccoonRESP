@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESPClientTest", "Ra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESP.Core", "RaccoonRESPClient.Core\RaccoonRESP.Core.csproj", "{66D5BB21-708D-432E-82FE-91A953C9E25B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaccoonRESPDemoHost", "RaccoonRESPDemoHost\RaccoonRESPDemoHost.csproj", "{008CDDAB-4821-44FA-9F17-3BC251DCD6E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{66D5BB21-708D-432E-82FE-91A953C9E25B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66D5BB21-708D-432E-82FE-91A953C9E25B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66D5BB21-708D-432E-82FE-91A953C9E25B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{008CDDAB-4821-44FA-9F17-3BC251DCD6E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{008CDDAB-4821-44FA-9F17-3BC251DCD6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{008CDDAB-4821-44FA-9F17-3BC251DCD6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{008CDDAB-4821-44FA-9F17-3BC251DCD6E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

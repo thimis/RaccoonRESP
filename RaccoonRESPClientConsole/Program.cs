@@ -1,5 +1,7 @@
 ﻿
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using RaccoonRESPClient.Core;
 
 namespace RaccoonRESPClientConsole
@@ -8,47 +10,11 @@ namespace RaccoonRESPClientConsole
     {
         static void Main(string[] args)
         {
-            var connectionSettings = new RaccoonRESPConnectionSettings();
-            var connection = new RaccoonRESPConnection(connectionSettings);
+            HostApplicationBuilder builder = Host.CreateApplicationBuilder(args);            
+            builder.Services.AddHostedService<DemoService>();
 
-            var client = new RaccoonRESPClient.Core.RaccoonRESPClient(connection);
-            //Connect to Redis Server
-            client.ConnectAsync().Wait();
-            
-            var commands = client.GetCommandUtility();
-
-            commands.String.Set("TimeKey", "somevalue").Wait();
-
-            //client.UseStringModule();
-            //client.Context.String().Set("TimeKey", "somevalue").Wait();
-            //client.RegisterModules(new IRaccoonRESPModule[]{new StringCommands()});
-            //client.Context.St db.String.Set("TimeKey3", "somevalue");
-
-            //var value = db.String.Get("TimeKey3").Result;
-
-
-            //db.String.Append("TimeKey3", " appended value");
-
-            //var value1 = db.String.Get("TimeKey3");
-
-            ////Start Transaction
-            //db.StartTranscation().Wait();
-            //db.String.Set("CoolTest", "somecooltestvalue");
-            //db.String.Set("CoolTestKey5", "somecoolValue5");
-            //var transRespose = db.ExecuteTranscation().Result;
-            //if (transRespose.Response.GetType() == typeof(RedisError))
-            //{
-            //    throw new Exception($"Transaction failed: {transRespose.Response}");
-            //}
-
-
-
-
-            //var dataTypes = CreateRESPDataTypes();
-
-            //var resoonseLetters = getResponse.ToCharArray().ToList();
-
-            //var dataType = dataTypes.FirstOrDefault(dt => dt.FirstByte == resoonseLetters[0].ToString());
+            IHost host = builder.Build();
+            host.Run();            
         }
 
         //private static List<RESPDataType> CreateRESPDataTypes()
