@@ -4,6 +4,14 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<Version>0.1.0</Version>
+	<Authors>JoeJack</Authors>
+	<Company>JoeJack</Company>
+	<Description>A redis client in C#</Description>
+	<PackageId>RaccoonRESP.Core</PackageId>
+	<PackageTags>redis;resp3;client</PackageTags>
+	<RepositoryUrl>https://github.com/thimis/RaccoonRESP</RepositoryUrl>
   </PropertyGroup>
 
 </Project>
