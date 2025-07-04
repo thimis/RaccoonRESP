@@ -12,6 +12,15 @@
 	<PackageId>RaccoonRESP.Core</PackageId>
 	<PackageTags>redis;resp3;client</PackageTags>
 	<RepositoryUrl>https://github.com/thimis/RaccoonRESP</RepositoryUrl>
+	<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
-</Project>
+  <ItemGroup>
+    <None Update="README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+	<None Include="README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+
+	</Project>
