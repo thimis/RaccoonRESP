@@ -20,7 +20,7 @@ dotnet add package RaccoonRESP.Core
 
 2. Create a Client Instance
 
-Use the provided classes to configure a connection and create a Redis client:
+Use the provided example to configure a connection, create a RaccoonRESPClient, set and get a string:
 
 ```csharp
 using RaccoonRESP.Core;
