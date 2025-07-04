@@ -23,13 +23,13 @@ Use the provided example to configure a connection, create a RaccoonRESPClient, 
 ```csharp
 using RaccoonRESP.Core;
 
-// Configure connection to Redis (localhost:6379)
-var settings = new RaccoonRESPConnectionSettings("localhost", port: 6379);
+// Configure connection settings to Redis, defaults to (localhost:6379)
+var settings = new RaccoonRESPConnectionSettings();
 var connection = new RaccoonRESPConnection(settings);
 var client = new RaccoonRESPClient(connection);
 
 // Connect to the Redis server
-await connection.ConnectAsync();
+await client.ConnectAsync();
 
 // Use the Command Utility to execute commands. Or you can use the client directly with SendCommandAsync.
 var commands = client.GetCommandUtility();
