@@ -5,9 +5,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	<Version>0.1.0</Version>
-	<Authors>JoeJack</Authors>
-	<Company>JoeJack</Company>
+	<Version>0.1.1</Version>
+	<Authors>Joe Jack</Authors>
+	<Company>Joe Jack</Company>
 	<Description>A redis client in C#</Description>
 	<PackageId>RaccoonRESP.Core</PackageId>
 	<PackageTags>redis;resp3;client</PackageTags>
@@ -20,7 +20,7 @@
     <None Update="README.md">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-	<None Include="README.md" Pack="true" PackagePath="\"/>
+	<None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 	</Project>
