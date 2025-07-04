@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Hosting;
-using RaccoonRESPClient.Core;
+using RaccoonRESP.Core;
 
 namespace RaccoonRESPDemo
 {

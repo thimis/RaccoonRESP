@@ -8,7 +8,7 @@ using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaccoonRESPClient.Core
+namespace RaccoonRESP.Core
 {
     public class RaccoonRESPClient : IRaccoonRESPClient
     {

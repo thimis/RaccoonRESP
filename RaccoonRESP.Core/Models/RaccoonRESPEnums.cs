@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaccoonRESPClient.Core
+namespace RaccoonRESP.Core
 {
     public static class RaccoonRESPEnums
     {

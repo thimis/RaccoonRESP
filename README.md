@@ -35,8 +35,8 @@ await client.ConnectAsync();
 var commands = client.GetCommandUtility();
 
 // Execute Redis commands
-await commands.String.SetAsync("greeting", "Hello Redis!");
-var value = await commands.String.GetAsync("greeting");
+await commands.String.Set("greeting", "Hello Redis!");
+var value = await commands.String.Get("greeting");
 
 Console.WriteLine($"Value for 'greeting': {value}");
 // Output: Value for 'greeting': Hello Redis!

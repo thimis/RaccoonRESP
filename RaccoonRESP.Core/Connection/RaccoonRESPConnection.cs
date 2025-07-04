@@ -4,9 +4,9 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using static RaccoonRESPClient.Core.RaccoonRESPEnums;
+using static RaccoonRESP.Core.RaccoonRESPEnums;
 
-namespace RaccoonRESPClient.Core
+namespace RaccoonRESP.Core
 {
     public class RaccoonRESPConnection
     {

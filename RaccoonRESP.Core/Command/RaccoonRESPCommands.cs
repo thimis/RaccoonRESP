@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RaccoonRESPClient.Core
+namespace RaccoonRESP.Core
 {
     public class RaccoonRESPCommands
     {

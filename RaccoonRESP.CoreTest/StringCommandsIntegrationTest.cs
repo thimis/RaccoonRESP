@@ -1,5 +1,5 @@
 using Aspire.Hosting;
-using RaccoonRESPClient.Core;
+using RaccoonRESP.Core;
 using System.Threading.Tasks;
 
 namespace RaccoonRESP.CoreTest
@@ -8,7 +8,7 @@ namespace RaccoonRESP.CoreTest
     public class StringCommandsIntegrationTest
     {
         private DistributedApplication _app;
-        private RaccoonRESPClient.Core.RaccoonRESPClient _client;
+        private RaccoonRESPClient _client;
 
         [OneTimeSetUp]
         public async Task SetUp()
@@ -33,7 +33,7 @@ namespace RaccoonRESP.CoreTest
             var connectionSettings = new RaccoonRESPConnectionSettings() { Port = 23456, Password = "testpassword" };
             var connection = new RaccoonRESPConnection(connectionSettings);
 
-            var client = new RaccoonRESPClient.Core.RaccoonRESPClient(connection);
+            var client = new RaccoonRESPClient(connection);
             // Connect to Redis Server
             await client.ConnectAsync();
 

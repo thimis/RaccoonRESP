@@ -1,7 +1,7 @@
 ﻿
 
 
-namespace RaccoonRESPClient.Core
+namespace RaccoonRESP.Core
 {
     public interface IRaccoonRESPTransactionCommands
     {
