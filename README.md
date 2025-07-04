@@ -22,7 +22,7 @@ dotnet add package RaccoonRESP.Core
 
 Use the provided classes to configure a connection and create a Redis client:
 
-`
+```csharp
 using RaccoonRESP.Core;
 
 // Configure connection to Redis (localhost:6379)
@@ -42,7 +42,7 @@ var value = await commands.String.GetAsync("greeting");
 
 Console.WriteLine($"Value for 'greeting': {value}");
 // Output: Value for 'greeting': Hello Redis!
-`
+```
 The example demonstrates using the Command Utility String command group to set and get a key’s value. The library provides methods for other Redis command groups.
 
 # License
