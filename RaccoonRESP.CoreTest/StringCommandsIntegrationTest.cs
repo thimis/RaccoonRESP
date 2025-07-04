@@ -13,6 +13,7 @@ namespace RaccoonRESP.CoreTest
         [OneTimeSetUp]
         public async Task SetUp()
         {
+            // Create a distributed application host for testing
             var appHost = DistributedApplicationTestingBuilder.CreateAsync<Projects.RaccoonRESP_CoreTestHost>().Result;
             appHost.Services.ConfigureHttpClientDefaults(clientBuilder =>
             {
@@ -28,11 +29,12 @@ namespace RaccoonRESP.CoreTest
 
             await resourceNotificationService.WaitForResourceAsync("testcache", KnownResourceStates.Running).WaitAsync(TimeSpan.FromSeconds(30));
 
+            // Create a client
             var connectionSettings = new RaccoonRESPConnectionSettings() { Port = 23456, Password = "testpassword" };
             var connection = new RaccoonRESPConnection(connectionSettings);
 
             var client = new RaccoonRESPClient.Core.RaccoonRESPClient(connection);
-            //Connect to Redis Server
+            // Connect to Redis Server
             await client.ConnectAsync();
 
             _app = app;

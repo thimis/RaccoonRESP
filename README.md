@@ -8,17 +8,15 @@ This library supports a wide range of Redis features and data types out of the b
 
 # Getting Started
 
-To start using RaccoonRESP in your project, follow these steps:
-
 1. Install the Library
-
-Add the RaccoonRESP.Core package to your .NET project. ple, using the .NET CLI:
 
 ```dotnet add package RaccoonRESP.Core```
 
+Add the RaccoonRESP.Core package to your .NET project. ple, using the .NET CLI:
+
 (If the package is not yet on NuGet, you can clone the repository and reference the RaccoonRESP.Core project directly.)
 
-2. Create a Client Instance
+2. Create a Client
 
 Use the provided example to configure a connection, create a RaccoonRESPClient, set and get a string:
 
