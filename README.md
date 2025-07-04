@@ -14,7 +14,7 @@ To start using RaccoonRESP in your project, follow these steps:
 
 Add the RaccoonRESP.Core package to your .NET project. ple, using the .NET CLI:
 
-dotnet add package RaccoonRESP.Core
+```dotnet add package RaccoonRESP.Core```
 
 (If the package is not yet on NuGet, you can clone the repository and reference the RaccoonRESP.Core project directly.)
 
