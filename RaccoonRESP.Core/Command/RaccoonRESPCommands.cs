@@ -12,6 +12,7 @@ namespace RaccoonRESP.Core
         public RaccoonRESPClient Client { get; set; }
         public RaccoonRESPStringCommands String { get; set; }
         public RaccoonRESPTransactionCommands Transaction { get; set; }
+        public RaccoonRESPJSONCommands JSON { get; set; }
     }
 
 }

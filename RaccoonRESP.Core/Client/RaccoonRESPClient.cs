@@ -24,7 +24,8 @@ namespace RaccoonRESP.Core
             {
                 Client = this,
                 String = new RaccoonRESPStringCommands(this),
-                Transaction = new RaccoonRESPTransactionCommands(this)
+                Transaction = new RaccoonRESPTransactionCommands(this),
+                JSON = new RaccoonRESPJSONCommands(this)
             };
         }
 
@@ -122,6 +123,66 @@ namespace RaccoonRESP.Core
 
             // Send command in RESP3 array-of-bulk-strings format
             string[] parts = new[] { command, key, path, value };
+            var sb = new StringBuilder($"*{parts.Length}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
+        }
+
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key, string path, string value, string NX, string XX)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            string[] parts = new[] { command, key, path, value, NX, XX};
+            var sb = new StringBuilder($"*{parts.Length}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
+        }
+
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key, string path, int index)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            string[] parts = new[] { command, key, path, index.ToString()};
+            var sb = new StringBuilder($"*{parts.Length}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
+        }
+
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key, string path, int start, int stop)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            string[] parts = new[] { command, key, path, start.ToString(), stop.ToString() };
+            var sb = new StringBuilder($"*{parts.Length}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
+        }
+
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key, string path,int index, string value)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            string[] parts = new[] { command, key, path, index.ToString(), value };
             var sb = new StringBuilder($"*{parts.Length}\r\n");
             foreach (var p in parts)
                 sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
