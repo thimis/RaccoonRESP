@@ -115,6 +115,21 @@ namespace RaccoonRESP.Core
             return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
         }
 
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key, string path, string value)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            string[] parts = new[] { command, key, path, value };
+            var sb = new StringBuilder($"*{parts.Length}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
+        }
+
         public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key)
         {
             if (_connection.client == null || !_connection.client.Connected)
@@ -140,6 +155,26 @@ namespace RaccoonRESP.Core
             var parts = new List<string>();
             parts.Add(command);
             parts.AddRange(keys);
+            var sb = new StringBuilder($"*{parts.Count}\r\n");
+            foreach (var p in parts)
+                sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
+
+            await _connection.writer.WriteAsync(sb.ToString());
+            return new RaccoonRESPResponse() { Response = await ParseResp3Async() };
+        }
+
+        public async Task<RaccoonRESPResponse> SendCommandAsync(string command, string key, string path, string[] values)
+        {
+            if (_connection.client == null || !_connection.client.Connected)
+                throw new InvalidOperationException("Redis client is not connected.");
+
+            // Send command in RESP3 array-of-bulk-strings format
+            var size = 3 + values.Length;
+            var parts = new List<string>();
+            parts.Add(command);
+            parts.Add(key);
+            parts.Add(path);
+            parts.AddRange(values);
             var sb = new StringBuilder($"*{parts.Count}\r\n");
             foreach (var p in parts)
                 sb.Append($"${Encoding.ASCII.GetByteCount(p)}\r\n{p}\r\n");
