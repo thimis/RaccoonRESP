@@ -43,5 +43,5 @@ The example demonstrates using the Command Utility String command group to set a
 
 # License
 
-MIT LicenseRaccoonRESP is licensed under the MIT License, allowing commercial use and modification with proper attribution.
+MIT License. RaccoonRESP is licensed under the MIT License, allowing commercial use and modification with proper attribution.
 
